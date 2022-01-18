@@ -8,29 +8,29 @@ async function test()
     const result = await qh.getPools(5000, "volumeUSD", OrderDirection.desc );
     console.log(`There are ${result.length} pools.`);
 
-    for(let pool of result) {
-        console.log(`
-        Pool ID: ${pool['id']}
-        1 ${pool['token0']['symbol']} is worth ${pool['token1Price']} ${pool['token1']['symbol']}
-        1 ${pool['token1']['symbol']} is worth ${pool['token0Price']} ${pool['token0']['symbol']}`);
-    }
-
-    let pool_match_list: object[] = await qh.getPoolIdByCoinMatch(['WETH','DAI'],1000);
-    for(let match of pool_match_list) {
-        let match_id = match['id'];
-        console.log(`Matched pool id is ${match_id}`);
-    }
-    await checkForDuplicatesById(pool_match_list);
-    let before = moment('2022-01-13T12:00:00Z')
-    let now = moment(new Date());
-    console.log(now.tz('America/New_York').format('MM/DD/YYYY h:ma z'));
-    let id_list = await qh.getIDsFromPoolList(result);
-    let fetched_pools:object[] = await qh.getPoolsByID(id_list);
-    console.log("id_list: " + "\n" +
-            id_list + "\n" +
-            "fetched_pools:" + '\n' );
-    console.log(fetched_pools);
-    console.log("Pools length is: " + result.length);
+    //for(let pool of result) {
+    //    console.log(`
+    //    Pool ID: ${pool['id']}
+    //    1 ${pool['token0']['symbol']} is worth ${pool['token1Price']} ${pool['token1']['symbol']}
+    //    1 ${pool['token1']['symbol']} is worth ${pool['token0Price']} ${pool['token0']['symbol']}`);
+    //}
+    //
+    //let pool_match_list: object[] = await qh.getPoolIdByCoinMatch(['WETH','DAI'],1000);
+    //for(let match of pool_match_list) {
+    //    let match_id = match['id'];
+    //    console.log(`Matched pool id is ${match_id}`);
+    //}
+    //await checkForDuplicatesById(pool_match_list);
+    //let before = moment('2022-01-13T12:00:00Z')
+    //let now = moment(new Date());
+    //console.log(now.tz('America/New_York').format('MM/DD/YYYY h:ma z'));
+    //let id_list = await qh.getIDsFromPoolList(result);
+    //let fetched_pools:object[] = await qh.getPoolsByID(id_list);
+    //console.log("id_list: " + "\n" +
+    //        id_list + "\n" +
+    //        "fetched_pools:" + '\n' );
+    //console.log(fetched_pools);
+    //console.log("Pools length is: " + result.length);
 }
 // Test if queries ever return duplicates:
 async function checkForDuplicatesById(list:object[]): Promise<void>
