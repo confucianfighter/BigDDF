@@ -1,4 +1,0 @@
-Installation
-In the pycharm terminal
-$ python -m ensurepip --upgrade
-$ pip install uniswap-python
