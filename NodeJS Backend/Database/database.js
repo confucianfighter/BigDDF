@@ -76,14 +76,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Database = void 0;
-var gql_query_helper_1 = require("../GraphQL/gql-query-helper");
+var QueryHelper_1 = require("../GraphQL/QueryHelper");
 var fs_1 = require("fs");
 var path = __importStar(require("path"));
 var Database = /** @class */ (function () {
     function Database() {
         this.CurrentPrices = null;
         this.MarkedPrices = [];
-        this.q = new gql_query_helper_1.QueryHelper();
+        this.q = new QueryHelper_1.QueryHelper();
         if (Database.Singleton === null) {
             this.someOtherPrices = [];
             Database.Singleton = this;
@@ -125,7 +125,7 @@ var Database = /** @class */ (function () {
             var q_result, prices, _i, q_result_1, pool;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.q.getPools(first, orderBy, gql_query_helper_1.OrderDirection.desc)];
+                    case 0: return [4 /*yield*/, this.q.getPools(first, orderBy, QueryHelper_1.OrderDirection.desc)];
                     case 1:
                         q_result = _a.sent();
                         prices = [];

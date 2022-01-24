@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var database_1 = require("./database");
-var gql_query_helper_1 = require("../GraphQL/gql-query-helper");
+var QueryHelper_1 = require("../GraphQL/QueryHelper");
 function test() {
     return __awaiter(this, void 0, void 0, function () {
         var database, loaded_pools, qh, id_list, fetched_pools;
@@ -50,7 +50,7 @@ function test() {
                 case 1:
                     loaded_pools = _a.sent();
                     console.log(loaded_pools);
-                    qh = new gql_query_helper_1.QueryHelper();
+                    qh = new QueryHelper_1.QueryHelper();
                     id_list = qh.getIDsFromPoolList(loaded_pools);
                     fetched_pools = qh.getPoolsByID(id_list);
                     return [2 /*return*/];

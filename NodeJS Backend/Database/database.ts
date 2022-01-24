@@ -1,4 +1,4 @@
-import {OrderDirection, QueryHelper} from '../GraphQL/gql-query-helper'
+import {OrderDirection, QueryHelper} from '../GraphQL/QueryHelper'
 import {readFile, readFileSync, writeFileSync} from 'fs';
 import * as path from "path";
 export class Database {

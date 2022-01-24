@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -47,7 +66,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QueryHelper = exports.OrderDirection = void 0;
 var graphql_request_1 = require("graphql-request");
-var all_queries_1 = require("./all-queries");
+var QueryBuilder = __importStar(require("./QueryBuilder"));
 var OrderDirection;
 (function (OrderDirection) {
     OrderDirection["desc"] = "desc";
@@ -80,30 +99,6 @@ var QueryHelper = /** @class */ (function () {
             });
         });
     };
-    /* Returns id list of all pools with specified coin name pair.
-     */
-    QueryHelper.prototype.getPoolIdByCoinMatch = function (symbol_list, first) {
-        return __awaiter(this, void 0, void 0, function () {
-            var result, match_list, i, pool;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getPools(first, 'liquidity', OrderDirection.desc)];
-                    case 1:
-                        result = _a.sent();
-                        match_list = [];
-                        for (i = 0; i < result.length; i++) {
-                            pool = result[i];
-                            if (pool['token0']['symbol'] === symbol_list[0] || pool['token0']['symbol'] === symbol_list[1]) {
-                                if (pool['token1']['symbol'] === symbol_list[0] || pool['token1']['symbol'] === symbol_list[1]) {
-                                    match_list.push(pool);
-                                }
-                            }
-                        }
-                        return [2 /*return*/, match_list];
-                }
-            });
-        });
-    };
     /* Gets a list of Uniswap V3 Pools. Any number of them instead of just 1000 */
     QueryHelper.prototype.getPools = function (first, orderBy, orderDirection) {
         return __awaiter(this, void 0, void 0, function () {
@@ -117,7 +112,7 @@ var QueryHelper = /** @class */ (function () {
                         while (first_count_down > 0) {
                             adjusted_first = first_count_down < 1000 ? first_count_down : 1000;
                             skip_amount = 1000 * i;
-                            query_str = (0, all_queries_1.pools_query)(adjusted_first, skip_amount, orderBy, orderDirection);
+                            query_str = QueryBuilder.Pools(adjusted_first, skip_amount, orderBy, orderDirection);
                             // send the query, store the promise, don't wait, move on
                             promises.push(this.sendQuery(query_str));
                             // if this results in a negative number, we are done:
@@ -134,6 +129,131 @@ var QueryHelper = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         return [2 /*return*/, pool_list];
+                }
+            });
+        });
+    };
+    /* Gets a list of Uniswap V3 Pools. Any number of them instead of just 1000 */
+    QueryHelper.prototype.getTokens = function (first, orderBy, orderDirection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var promises, first_count_down, i, adjusted_first, skip_amount, query_str, token_list;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        first_count_down = first;
+                        i = 0;
+                        while (first_count_down > 0) {
+                            adjusted_first = first_count_down < 1000 ? first_count_down : 1000;
+                            skip_amount = 1000 * i;
+                            query_str = QueryBuilder.Tokens(adjusted_first, skip_amount, orderBy, orderDirection);
+                            // send the query, store the promise, don't wait, move on
+                            promises.push(this.sendQuery(query_str));
+                            // if this results in a negative number, we are done:
+                            first_count_down -= 1000;
+                            i++;
+                        }
+                        token_list = [];
+                        return [4 /*yield*/, Promise.all(promises).then(function (results) {
+                                for (var _i = 0, results_2 = results; _i < results_2.length; _i++) {
+                                    var result = results_2[_i];
+                                    token_list = __spreadArray(__spreadArray([], token_list, true), result['tokens'], true);
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, token_list];
+                }
+            });
+        });
+    };
+    QueryHelper.prototype.getTokenDayData = function (first, orderBy, orderDirection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var promises, first_count_down, i, adjusted_first, skip_amount, query_str, tokenDayDatas;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        first_count_down = first;
+                        i = 0;
+                        while (first_count_down > 0) {
+                            adjusted_first = first_count_down < 1000 ? first_count_down : 1000;
+                            skip_amount = 1000 * i;
+                            query_str = QueryBuilder.TokenDayDatas(adjusted_first, skip_amount, orderBy, orderDirection);
+                            // send the query, store the promise, don't wait, move on
+                            promises.push(this.sendQuery(query_str));
+                            // if this results in a negative number, we are done:
+                            first_count_down -= 1000;
+                            i++;
+                        }
+                        tokenDayDatas = [];
+                        return [4 /*yield*/, Promise.all(promises).then(function (results) {
+                                for (var _i = 0, results_3 = results; _i < results_3.length; _i++) {
+                                    var result = results_3[_i];
+                                    tokenDayDatas = __spreadArray(__spreadArray([], tokenDayDatas, true), result['tokenDayDatas'], true);
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, tokenDayDatas];
+                }
+            });
+        });
+    };
+    QueryHelper.prototype.getTokenHourData = function (first, orderBy, orderDirection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var promises, first_count_down, i, adjusted_first, skip_amount, query_str, tokenHourDatas;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        first_count_down = first;
+                        i = 0;
+                        while (first_count_down > 0) {
+                            adjusted_first = first_count_down < 1000 ? first_count_down : 1000;
+                            skip_amount = 1000 * i;
+                            query_str = QueryBuilder.TokenHourDatas(adjusted_first, skip_amount, orderBy, orderDirection);
+                            // send the query, store the promise, don't wait, move on
+                            promises.push(this.sendQuery(query_str));
+                            // if this results in a negative number, we are done:
+                            first_count_down -= 1000;
+                            i++;
+                        }
+                        tokenHourDatas = [];
+                        return [4 /*yield*/, Promise.all(promises).then(function (results) {
+                                for (var _i = 0, results_4 = results; _i < results_4.length; _i++) {
+                                    var result = results_4[_i];
+                                    tokenHourDatas = __spreadArray(__spreadArray([], tokenHourDatas, true), result['tokenHourDatas'], true);
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, tokenHourDatas];
+                }
+            });
+        });
+    };
+    /* Returns id list of all pools with specified coin name pair.
+     */
+    QueryHelper.prototype.getPoolByTokenMatch = function (symbol_list, first) {
+        var _a, _b, _c, _d;
+        return __awaiter(this, void 0, void 0, function () {
+            var result, match_list, i, pool;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0: return [4 /*yield*/, this.getPools(first, 'volumeUSD', OrderDirection.desc)];
+                    case 1:
+                        result = _e.sent();
+                        match_list = [];
+                        for (i = 0; i < result.length; i++) {
+                            pool = result[i];
+                            if (((_a = pool.token0) === null || _a === void 0 ? void 0 : _a.symbol) === symbol_list[0] || ((_b = pool.token0) === null || _b === void 0 ? void 0 : _b.symbol) === symbol_list[1]) {
+                                if (((_c = pool.token1) === null || _c === void 0 ? void 0 : _c.symbol) === symbol_list[0] || ((_d = pool.token1) === null || _d === void 0 ? void 0 : _d.symbol) === symbol_list[1]) {
+                                    match_list.push(pool);
+                                }
+                            }
+                        }
+                        return [2 /*return*/, match_list];
                 }
             });
         });
@@ -160,22 +280,22 @@ var QueryHelper = /** @class */ (function () {
                         result_list = [];
                         promises = [];
                         while (ids.length > 0) {
-                            splice_amount = ids.length >= 100 ? 100 : ids.length;
+                            splice_amount = ids.length >= 20 ? 20 : ids.length;
                             ids_fragment = [];
                             for (i = 0; i < splice_amount; i++) {
                                 id = ids.pop();
                                 ids_fragment.push(id);
                             }
-                            query_str = (0, all_queries_1.poolsByIDQuery)(ids_fragment);
+                            query_str = QueryBuilder.Pools(undefined, undefined, undefined, undefined, ids_fragment);
                             // take the promise, don't wait
                             promises.push(this.sendQuery(query_str));
                         }
                         // now wait for all queries to finish and build the pools list:
                         return [4 /*yield*/, Promise.all(promises).then(function (results) {
-                                for (var _i = 0, results_2 = results; _i < results_2.length; _i++) {
-                                    var pool = results_2[_i];
+                                for (var _i = 0, results_5 = results; _i < results_5.length; _i++) {
+                                    var pool = results_5[_i];
                                     // ... is called the spreader operator, just unpacks the list
-                                    result_list = __spreadArray(__spreadArray([], result_list, true), [pool['pools']], false);
+                                    result_list = __spreadArray(__spreadArray([], result_list, true), pool['pools'], true);
                                 }
                             })];
                     case 1:
@@ -253,4 +373,4 @@ var QueryHelper = /** @class */ (function () {
     return QueryHelper;
 }());
 exports.QueryHelper = QueryHelper;
-//# sourceMappingURL=gql-query-helper.js.map
+//# sourceMappingURL=QueryHelper.js.map

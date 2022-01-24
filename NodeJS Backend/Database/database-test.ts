@@ -1,5 +1,5 @@
 import {Database} from "./database";
-import {QueryHelper} from "../GraphQL/gql-query-helper";
+import {QueryHelper} from "../GraphQL/QueryHelper";
 
 async function test()
 {
