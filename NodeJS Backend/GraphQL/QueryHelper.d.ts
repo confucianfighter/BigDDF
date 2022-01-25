@@ -19,6 +19,6 @@ export declare class QueryHelper {
     getPoolsByID(ids_list: string[]): Promise<Pool[]>;
     verifyAllIDsPresent(ids: string[], pools: object[]): Promise<void>;
     private sort_ids_func;
-    sort_pools_by_id_func(a: object, b: object): 0 | 1 | -1;
+    sort_pools_by_id_func(a: object, b: object): 1 | -1 | 0;
     isHexID(hex_str: string): void;
 }
