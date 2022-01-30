@@ -2,7 +2,7 @@ TODO: Change Pool class to a module for consistency.
 TODO: Move getCoinsThatMatchCoinGecko out of QueryHelper
 TODO: Move CoinGecko out of GraphQL
 TODO: Come up with a module that does things like finding matches between pools and prices
-TODO: Move Pool to own folder, same with Token and the others.
+TODO: Move Pool to own folder, same with IToken and the others.
 TODO: QueryBuilder might should just contain a query header string builder function
     the rest of the builders can be moved to the query files in respective folders.
 TODO: Move Pool Queries to Pool Module or folder, same for other data structures

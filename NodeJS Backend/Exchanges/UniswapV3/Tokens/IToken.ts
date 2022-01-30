@@ -1,7 +1,7 @@
-import {TokenDayData} from "./TokenDayData";
-import {Pool} from "./Pool";
+import {TokenDayData} from "../TokenDayDatas/TokenDayData";
+import {Pool} from "../Pools/Pool";
 
-export interface Token {
+export interface IToken {
     id: string // ID
     symbol: string // string
     name: string // String

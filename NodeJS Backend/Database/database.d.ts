@@ -1,4 +1,4 @@
-import { Pool } from "../GraphQL/Schema_Interfaces/Pool";
+import { Pool } from "../Exchanges/UniswapV3/Pools/Pool";
 export declare class Database {
     private static Singleton;
     CurrentPrices: object[] | null;

@@ -1,5 +1,5 @@
 import {BlockHelper} from './BlockHelper'
-import {Block, printBlock} from './Schema_Interfaces/Block'
+import {Block, printBlock} from './Block'
 
 export async function test() {
     let blocks:Block[] = await (new BlockHelper().getBlocks(10));

@@ -1,6 +1,6 @@
 import {Database} from "./database";
 import {QueryHelper} from "../GraphQL/QueryHelper";
-import {Pool} from "../GraphQL/Schema_Interfaces/Pool";
+import {Pool} from "../Exchanges/UniswapV3/Pools/Pool";
 
 async function test()
 {

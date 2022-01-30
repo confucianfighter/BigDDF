@@ -1,10 +1,13 @@
 import {getAllTokenPrices, ICoinGeckoMarkets, removeDuplicates} from './CoinGecko'
 import moment from "moment-timezone";
-import {computeTimeElapsed, TimeUnits} from "../../Utils/TimeUtils";
-import {sendEmail, Users} from "../../MessageUtils/emailer";
-import {QueryHelper, TokenHash} from "../QueryHelper";
-import * as Timer from "../../Utils/Timer";
-import {timer} from "../../Utils/Timer";
+import {computeTimeElapsed, TimeUnits} from "../Utils/TimeUtils";
+import {sendEmail, Users} from "../MessageUtils/emailer";
+import {queryHelper, QueryHelper} from "../GraphQL/QueryHelper";
+import * as Timer from "../Utils/Timer";
+import {timer} from "../Utils/Timer";
+import {getTokenNameHash,getTokens,TokenHash} from "../Exchanges/UniswapV3/Tokens/Tokens";
+
+
 
 export async function test()
 {
@@ -15,7 +18,7 @@ export async function test()
 
 export async function printItems(items: ICoinGeckoMarkets[]): Promise<string>
 {
-    let tokenHash:TokenHash = await new QueryHelper().getTokenNameHash(5000,'volumeUSD');
+    let tokenHash = await getTokenNameHash(5000,'volumeUSD');
     timer.start();
     let result = "";
     const header_str =

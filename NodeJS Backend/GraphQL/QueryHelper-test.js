@@ -47,6 +47,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var QueryHelper_1 = require("./QueryHelper");
 var print_json_tree_1 = require("../Utils/print_json_tree");
+var Tokens_1 = require("../Exchanges/UniswapV3/Tokens/Tokens");
 function test() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -121,7 +122,7 @@ function testGetTokens(first, token_symbol, orderBy, direction) {
             switch (_a.label) {
                 case 0:
                     qh = new QueryHelper_1.QueryHelper();
-                    return [4 /*yield*/, qh.getTokens(first, orderBy, direction)];
+                    return [4 /*yield*/, (0, Tokens_1.getTokens)(first, orderBy, direction)];
                 case 1:
                     tokens = _a.sent();
                     output_str = "";

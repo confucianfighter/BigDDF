@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBlocksQuery = exports.TokenHourDatas = exports.TokenDayDatas = exports.Tokens = exports.Pools = void 0;
+exports.getBlocksQuery = exports.TokenHourDatas = exports.TokenDayDatas = exports.Pools = void 0;
 var graphql_request_1 = require("graphql-request");
 function Pools(first, skip, orderBy, orderDirection, ids, block) {
     var idString = undefined;
@@ -22,27 +22,12 @@ function Pools(first, skip, orderBy, orderDirection, ids, block) {
     return query_str;
 }
 exports.Pools = Pools;
-function Tokens(first, skip, orderBy, orderDirection, ids, block) {
-    var idString = undefined;
-    // @ts-ignore
-    if (ids !== undefined)
-        idString = buildIDString(ids);
-    var query_str = (0, graphql_request_1.gql)(templateObject_2 || (templateObject_2 = __makeTemplateObject(["{\n    tokens("], ["{\n    tokens("]))) +
-        (idString ? "where: {id_in: ".concat(idString, "} ,") : "") +
-        (first ? "first: ".concat(first, ", ") : "") +
-        (skip ? "skip: ".concat(skip, ", ") : "") +
-        (orderBy ? "orderBy: ".concat(orderBy, ",") : "") +
-        (orderDirection ? "orderDirection: ".concat(orderDirection.toString(), " , ") : "") +
-        (block ? "block: {number: ".concat(block, "} ,") : "") + ")\n        {\n                id #: ID!\n                symbol #: String!\n                name #: String!\n                decimals #: BigInt!\n                totalSupply #: BigInt!\n                volume #: BigDecimal!\n                volumeUSD #: BigDecimal!\n                untrackedVolumeUSD #: BigDecimal!\n                feesUSD #: BigDecimal!\n                txCount #: BigInt!\n                poolCount #: BigInt!\n                totalValueLocked #: BigDecimal!\n                totalValueLockedUSD #: BigDecimal!\n                totalValueLockedUSDUntracked #: BigDecimal!\n                derivedETH #: BigDecimal!\n                whitelistPools {\n                    id\n                    volumeUSD\n                }\n                tokenDayData {\n                    id\n                    date # ten digit number with no quotes\n                    volume\n                    volumeUSD\n                    untrackedVolumeUSD\n                    totalValueLocked\n                    totalValueLockedUSD\n                    priceUSD\n                    feesUSD\n                    open\n                    high\n                    low\n                    close\n                }  \n           }    \n    }";
-    return query_str;
-}
-exports.Tokens = Tokens;
 function TokenDayDatas(first, skip, orderBy, orderDirection, ids, block) {
     var idString = undefined;
     // @ts-ignore
     if (ids !== undefined)
         idString = buildIDString(ids);
-    var query_str = (0, graphql_request_1.gql)(templateObject_3 || (templateObject_3 = __makeTemplateObject(["{\n    tokenDayDatas("], ["{\n    tokenDayDatas("]))) +
+    var query_str = (0, graphql_request_1.gql)(templateObject_2 || (templateObject_2 = __makeTemplateObject(["{\n    tokenDayDatas("], ["{\n    tokenDayDatas("]))) +
         (idString ? "where: {id_in: ".concat(idString, "} ,") : "") +
         (first ? "first: ".concat(first, ", ") : "") +
         (skip ? "skip: ".concat(skip, ", ") : "") +
@@ -57,7 +42,7 @@ function TokenHourDatas(first, skip, orderBy, orderDirection, ids, block) {
     // @ts-ignore
     if (ids !== undefined)
         idString = buildIDString(ids);
-    return (0, graphql_request_1.gql)(templateObject_4 || (templateObject_4 = __makeTemplateObject(["{\n    tokenHourDatas("], ["{\n    tokenHourDatas("]))) +
+    return (0, graphql_request_1.gql)(templateObject_3 || (templateObject_3 = __makeTemplateObject(["{\n    tokenHourDatas("], ["{\n    tokenHourDatas("]))) +
         (idString ? "where: {id_in: ".concat(idString, "} ,") : "") +
         (first ? "first: ".concat(first, ", ") : "") +
         (skip ? "skip: ".concat(skip, ", ") : "") +
@@ -116,9 +101,9 @@ function buildIDString(ids) {
     return idString;
 }
 function getBlocksQuery(first) {
-    var query_str = (0, graphql_request_1.gql)(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    {\n        blocks(first: ", ", skip: 0, orderBy: number, orderDirection: desc, where: {number_gt: 9300000}) {\n            id\n            number\n            timestamp\n            parentHash\n            author\n            difficulty\n            totalDifficulty\n            gasUsed\n            gasLimit\n            receiptsRoot\n            transactionsRoot\n            stateRoot\n            size\n            unclesHash\n        }\n    }\n    "], ["\n    {\n        blocks(first: ", ", skip: 0, orderBy: number, orderDirection: desc, where: {number_gt: 9300000}) {\n            id\n            number\n            timestamp\n            parentHash\n            author\n            difficulty\n            totalDifficulty\n            gasUsed\n            gasLimit\n            receiptsRoot\n            transactionsRoot\n            stateRoot\n            size\n            unclesHash\n        }\n    }\n    "])), first);
+    var query_str = (0, graphql_request_1.gql)(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    {\n        blocks(first: ", ", skip: 0, orderBy: number, orderDirection: desc, where: {number_gt: 9300000}) {\n            id\n            number\n            timestamp\n            parentHash\n            author\n            difficulty\n            totalDifficulty\n            gasUsed\n            gasLimit\n            receiptsRoot\n            transactionsRoot\n            stateRoot\n            size\n            unclesHash\n        }\n    }\n    "], ["\n    {\n        blocks(first: ", ", skip: 0, orderBy: number, orderDirection: desc, where: {number_gt: 9300000}) {\n            id\n            number\n            timestamp\n            parentHash\n            author\n            difficulty\n            totalDifficulty\n            gasUsed\n            gasLimit\n            receiptsRoot\n            transactionsRoot\n            stateRoot\n            size\n            unclesHash\n        }\n    }\n    "])), first);
     return query_str;
 }
 exports.getBlocksQuery = getBlocksQuery;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 //# sourceMappingURL=QueryBuilder.js.map

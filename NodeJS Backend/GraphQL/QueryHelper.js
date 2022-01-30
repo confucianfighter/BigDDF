@@ -64,14 +64,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.QueryHelper = exports.OrderDirection = void 0;
+exports.queryHelper = exports.QueryHelper = exports.OrderDirection = void 0;
 var graphql_request_1 = require("graphql-request");
 var QueryBuilder = __importStar(require("./QueryBuilder"));
-var Pool_1 = require("./Schema_Interfaces/Pool");
-var BlockHelper_1 = require("./BlockHelper");
-var CoinGecko_1 = require("./CoinGecko/CoinGecko");
-var TimeUtils_1 = require("../Utils/TimeUtils");
-var Timer_1 = require("../Utils/Timer");
+var Pool_1 = require("../Exchanges/UniswapV3/Pools/Pool");
+var BlockHelper_1 = require("./Blocks/BlockHelper");
+var CoinGecko_1 = require("../CoinGecko/CoinGecko");
 var OrderDirection;
 (function (OrderDirection) {
     OrderDirection["desc"] = "desc";
@@ -212,69 +210,9 @@ var QueryHelper = /** @class */ (function () {
         else
             return 0;
     };
-    /* Gets a list of Uniswap V3 Pools. Any number of them instead of just 1000 */
-    QueryHelper.prototype.getTokens = function (first, orderBy, orderDirection) {
-        return __awaiter(this, void 0, void 0, function () {
-            var blocks, promises, first_count_down, i, adjusted_first, skip_amount, query_str, token_list, results, _i, results_2, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        return [4 /*yield*/, new BlockHelper_1.BlockHelper().getBlocks(1)];
-                    case 1:
-                        blocks = _a.sent();
-                        Timer_1.timer.start("getTokens");
-                        promises = [];
-                        first_count_down = first;
-                        i = 0;
-                        while (first_count_down > 0) {
-                            adjusted_first = first_count_down < 1000 ? first_count_down : 1000;
-                            skip_amount = 1000 * i;
-                            query_str = QueryBuilder.Tokens(adjusted_first, skip_amount, orderBy, orderDirection, undefined, blocks[0].number);
-                            // send the query, store the promise, don't wait, move on
-                            promises.push(this.sendQuery(query_str));
-                            // if this results in a negative number, we are done:
-                            first_count_down -= 1000;
-                            i++;
-                        }
-                        token_list = [];
-                        return [4 /*yield*/, Promise.all(promises)];
-                    case 2:
-                        results = _a.sent();
-                        for (_i = 0, results_2 = results; _i < results_2.length; _i++) {
-                            result = results_2[_i];
-                            token_list = __spreadArray(__spreadArray([], token_list, true), result.tokens, true);
-                        }
-                        Timer_1.timer.stop();
-                        return [2 /*return*/, token_list];
-                }
-            });
-        });
-    };
-    QueryHelper.prototype.getTokenNameHash = function (first, orderBy, direction) {
-        if (direction === void 0) { direction = OrderDirection.desc; }
-        return __awaiter(this, void 0, void 0, function () {
-            var tokenHash, tokens, _i, tokens_1, token;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        tokenHash = {};
-                        return [4 /*yield*/, this.getTokens(first, orderBy, direction)];
-                    case 1:
-                        tokens = _a.sent();
-                        Timer_1.timer.start("Just making the token hash", TimeUtils_1.TimeUnits.seconds);
-                        for (_i = 0, tokens_1 = tokens; _i < tokens_1.length; _i++) {
-                            token = tokens_1[_i];
-                            tokenHash[token.symbol.toUpperCase()] = token;
-                        }
-                        Timer_1.timer.stop();
-                        return [2 /*return*/, tokenHash];
-                }
-            });
-        });
-    };
     QueryHelper.prototype.getTokenDayData = function (first, orderBy, orderDirection) {
         return __awaiter(this, void 0, void 0, function () {
-            var promises, blocks, first_count_down, i, adjusted_first, skip_amount, query_str, tokenDayDatas, results, _i, results_3, result;
+            var promises, blocks, first_count_down, i, adjusted_first, skip_amount, query_str, tokenDayDatas, results, _i, results_2, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -298,8 +236,8 @@ var QueryHelper = /** @class */ (function () {
                         return [4 /*yield*/, Promise.all(promises)];
                     case 2:
                         results = _a.sent();
-                        for (_i = 0, results_3 = results; _i < results_3.length; _i++) {
-                            result = results_3[_i];
+                        for (_i = 0, results_2 = results; _i < results_2.length; _i++) {
+                            result = results_2[_i];
                             tokenDayDatas = __spreadArray(__spreadArray([], tokenDayDatas, true), result.tokenDayDatas, true);
                         }
                         return [2 /*return*/, tokenDayDatas];
@@ -309,7 +247,7 @@ var QueryHelper = /** @class */ (function () {
     };
     QueryHelper.prototype.getTokenHourData = function (first, orderBy, orderDirection) {
         return __awaiter(this, void 0, void 0, function () {
-            var promises, blocks, first_count_down, i, adjusted_first, skip_amount, block, query_str, tokenHourDatas, results, _i, results_4, result;
+            var promises, blocks, first_count_down, i, adjusted_first, skip_amount, block, query_str, tokenHourDatas, results, _i, results_3, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -334,8 +272,8 @@ var QueryHelper = /** @class */ (function () {
                         return [4 /*yield*/, Promise.all(promises)];
                     case 2:
                         results = _a.sent();
-                        for (_i = 0, results_4 = results; _i < results_4.length; _i++) {
-                            result = results_4[_i];
+                        for (_i = 0, results_3 = results; _i < results_3.length; _i++) {
+                            result = results_3[_i];
                             tokenHourDatas = __spreadArray(__spreadArray([], tokenHourDatas, true), result.tokenHourDatas, true);
                         }
                         return [2 /*return*/, tokenHourDatas];
@@ -382,7 +320,7 @@ var QueryHelper = /** @class */ (function () {
     * this runs them all at once:*/
     QueryHelper.prototype.getPoolsByID = function (ids_list) {
         return __awaiter(this, void 0, void 0, function () {
-            var ids, blocks, result_list, promises, splice_amount, ids_fragment, i, id, query_str, results, _i, results_5, pool;
+            var ids, blocks, result_list, promises, splice_amount, ids_fragment, i, id, query_str, results, _i, results_4, pool;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -406,8 +344,8 @@ var QueryHelper = /** @class */ (function () {
                         return [4 /*yield*/, Promise.all(promises)];
                     case 2:
                         results = _a.sent();
-                        for (_i = 0, results_5 = results; _i < results_5.length; _i++) {
-                            pool = results_5[_i];
+                        for (_i = 0, results_4 = results; _i < results_4.length; _i++) {
+                            pool = results_4[_i];
                             // ... is called the spreader operator, just unpacks the list
                             result_list = __spreadArray(__spreadArray([], result_list, true), pool.pools, true);
                         }
@@ -483,4 +421,5 @@ var QueryHelper = /** @class */ (function () {
     return QueryHelper;
 }());
 exports.QueryHelper = QueryHelper;
+exports.queryHelper = new QueryHelper();
 //# sourceMappingURL=QueryHelper.js.map

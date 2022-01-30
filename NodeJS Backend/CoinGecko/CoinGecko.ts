@@ -2,9 +2,9 @@
 // npm i node-fetch@2.6.1
 //@ts-ignore
 import fetch from "node-fetch"
-import {computeTimeElapsed, TimeUnits} from "../../Utils/TimeUtils";
+import {computeTimeElapsed, TimeUnits} from "../Utils/TimeUtils";
 import moment from "moment-timezone";
-import {timer} from "../../Utils/Timer";
+import {timer} from "../Utils/Timer";
 // Gets data on as many tokens from CoinGecko as specified:
 export async function getAllTokenPrices(how_many:number):Promise<ICoinGeckoMarkets[]>
 {

@@ -7,13 +7,13 @@
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
-import {Token} from "./Token";
+import {IToken} from "../Tokens/IToken";
 export interface PoolData {
     id: string // ID!
     createdAtTimestamp: string // BigInt!
     createdAtBlockNumber: string // BigInt!
-    token0: Token // Token!
-    token1: Token // Token!
+    token0: IToken // IToken!
+    token1: IToken // IToken!
     feeTier: string // BigInt!
     liquidity: string // BigInt!
     sqrtPrice: string // BigInt!
@@ -41,8 +41,8 @@ export class Pool{
     public id : string // ID!
     public createdAtTimestamp: string // BigInt!
     public createdAtBlockNumber: string // BigInt!
-    public token0: Token // Token!
-    public token1: Token // Token!
+    public token0: IToken // IToken!
+    public token1: IToken // IToken!
     public feeTier: string // BigInt!
     public liquidity: string // BigInt!
     public sqrtPrice: string // BigInt!
@@ -70,8 +70,8 @@ export class Pool{
         this.id = data.id // ID!
         this.createdAtTimestamp = data.createdAtTimestamp; // BigInt!
         this.createdAtBlockNumber = data.createdAtBlockNumber // BigInt!
-        this.token0 = data.token0; // Token!
-        this.token1 = data.token1; // Token!
+        this.token0 = data.token0; // IToken!
+        this.token1 = data.token1; // IToken!
         this.feeTier = data.feeTier; // BigInt!
         this.liquidity = data.liquidity; // BigInt!
         this.sqrtPrice = data.sqrtPrice; // BigInt!

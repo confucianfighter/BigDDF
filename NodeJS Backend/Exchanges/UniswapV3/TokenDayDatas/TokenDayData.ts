@@ -1,9 +1,9 @@
-import {Token} from "./Token";
+import {IToken} from "../Tokens/IToken";
 
 export interface TokenDayData {
     id: string // ID!
     date: string // Int!
-    token: Token // Token!
+    token: IToken // IToken!
     volume: string // BigDecimal!
     volumeUSD: string // BigDecimal!
     untrackedVolumeUSD: string // BigDecimal!

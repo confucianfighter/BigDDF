@@ -1,7 +1,7 @@
 import {OrderDirection, QueryHelper} from '../GraphQL/QueryHelper'
 import {readFile, readFileSync, writeFileSync} from 'fs';
 import * as path from "path";
-import {Pool} from "../GraphQL/Schema_Interfaces/Pool";
+import {Pool} from "../Exchanges/UniswapV3/Pools/Pool";
 export class Database {
     private static Singleton: Database | null = null;
     public CurrentPrices: object[] | null = null;

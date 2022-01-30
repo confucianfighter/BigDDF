@@ -1,9 +1,9 @@
-import {Token} from "./Token";
+import {IToken} from "../Tokens/IToken";
 
 export class TokenHourData {
     id?: string // ID!
     periodStartUnix?: string // Int!
-    token?: Token // Token!
+    token?: IToken // IToken!
     volume?: string // BigDecimal!
     volumeUSD?: string // BigDecimal!
     untrackedVolumeUSD?: string // BigDecimal!

@@ -1,10 +1,10 @@
-import { Token } from "./Token";
+import { IToken } from "../Tokens/IToken";
 export interface PoolData {
     id: string;
     createdAtTimestamp: string;
     createdAtBlockNumber: string;
-    token0: Token;
-    token1: Token;
+    token0: IToken;
+    token1: IToken;
     feeTier: string;
     liquidity: string;
     sqrtPrice: string;
@@ -32,8 +32,8 @@ export declare class Pool {
     id: string;
     createdAtTimestamp: string;
     createdAtBlockNumber: string;
-    token0: Token;
-    token1: Token;
+    token0: IToken;
+    token1: IToken;
     feeTier: string;
     liquidity: string;
     sqrtPrice: string;

@@ -2,12 +2,12 @@ import dayjs from "dayjs";
 const EthDater = require('ethereum-block-by-date');
 //import * as EthDater from "ethereum-block-by-date"
 import * as ethers from 'ethers'
-import { computeTimeElapsed, TimeUnits} from "../Utils/TimeUtils";
-import {getBlocksQuery} from "./QueryBuilder";
-import {QueryHelper} from "./QueryHelper";
-import {Block} from './Schema_Interfaces/Block'
+import { computeTimeElapsed, TimeUnits} from "../../Utils/TimeUtils";
+import {getBlocksQuery} from "../QueryBuilder";
+import {QueryHelper} from "../QueryHelper";
+import {Block} from './Block'
 import moment from "moment-timezone";
-import {timer} from "../Utils/Timer";
+import {timer} from "../../Utils/Timer";
 
 export class BlockHelper {
     public static Singleton: BlockHelper | null = null;

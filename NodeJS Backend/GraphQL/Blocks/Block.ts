@@ -1,4 +1,4 @@
-import {BlockHelper} from "../BlockHelper";
+import {BlockHelper} from "./BlockHelper";
 
 export interface Block {
     id?: string; // ID!
