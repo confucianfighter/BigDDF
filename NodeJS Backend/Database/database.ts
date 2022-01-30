@@ -1,18 +1,16 @@
 import {OrderDirection, QueryHelper} from '../GraphQL/QueryHelper'
 import {readFile, readFileSync, writeFileSync} from 'fs';
 import * as path from "path";
+import {Pool} from "../GraphQL/Schema_Interfaces/Pool";
 export class Database {
     private static Singleton: Database | null = null;
     public CurrentPrices: object[] | null = null;
     public MarkedPrices: object[] | null = [];
-    public someOtherPrices: object[] | null;
-    first: number;
-    orderBy: string;
+
     private q = new QueryHelper();
 
     constructor() {
         if(Database.Singleton === null) {
-            this.someOtherPrices = [];
             Database.Singleton = this;
         }
         return Database.Singleton;
@@ -40,7 +38,7 @@ export class Database {
     {
         writeFileSync(path.resolve("./", 'MarkedPrices.json'), JSON.stringify(this.MarkedPrices));
     }
-    async loadMarkedPrices(): Promise<object[]>
+    async loadMarkedPrices(): Promise<Pool[]>
     {
         let loaded_string:string | null = null;
         let data = readFileSync('/Users/daylannance/Documents/uniswap-getting-started/Database/MarkedPrices.json',

@@ -85,7 +85,6 @@ var Database = /** @class */ (function () {
         this.MarkedPrices = [];
         this.q = new QueryHelper_1.QueryHelper();
         if (Database.Singleton === null) {
-            this.someOtherPrices = [];
             Database.Singleton = this;
         }
         return Database.Singleton;

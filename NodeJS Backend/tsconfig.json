@@ -5,10 +5,9 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "declaration": true,
-    //"strict": true,
+    "strict": true,
     //"noImplicitAny": true,
     "strictNullChecks": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true
   },
   "exclude": [

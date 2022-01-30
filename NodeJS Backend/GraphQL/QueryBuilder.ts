@@ -281,3 +281,28 @@ function buildIDString(ids: string[]):string {
     idString += ']';
     return idString;
 }
+
+export function getBlocksQuery(first:number): string
+{
+    let query_str:string = gql`
+    {
+        blocks(first: ${first}, skip: 0, orderBy: number, orderDirection: desc, where: {number_gt: 9300000}) {
+            id
+            number
+            timestamp
+            parentHash
+            author
+            difficulty
+            totalDifficulty
+            gasUsed
+            gasLimit
+            receiptsRoot
+            transactionsRoot
+            stateRoot
+            size
+            unclesHash
+        }
+    }
+    `
+    return query_str;
+}

@@ -1,7 +1,7 @@
 import {TokenDayData} from "./TokenDayData";
 import {Pool} from "./Pool";
 
-export class Token {
+export interface Token {
     id: string // ID
     symbol: string // string
     name: string // String
@@ -17,6 +17,6 @@ export class Token {
     totalValueLockedUSD: string // BigDecimal
     totalValueLockedUSDUntracked: string // BigDecimal
     derivedETH: string // BigDecimal
-    whitelistPools: Pool
+    whitelistPools: Pool[]
     tokenDayData: TokenDayData
 }

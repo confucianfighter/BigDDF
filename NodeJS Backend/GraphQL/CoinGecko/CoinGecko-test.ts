@@ -1,39 +1,46 @@
-import { getAllTokenPrices, ICoinGeckoMarkets } from './CoinGecko'
+import {getAllTokenPrices, ICoinGeckoMarkets, removeDuplicates} from './CoinGecko'
 import moment from "moment-timezone";
-import { computeTimeElapsed, TimeUnits } from "../../Utils/TimeUtils";
+import {computeTimeElapsed, TimeUnits} from "../../Utils/TimeUtils";
+import {sendEmail, Users} from "../../MessageUtils/emailer";
+import {QueryHelper, TokenHash} from "../QueryHelper";
+import * as Timer from "../../Utils/Timer";
+import {timer} from "../../Utils/Timer";
 
 export async function test()
 {
     let data:ICoinGeckoMarkets[] = await getAllTokenPrices(5000);
-    console.log(printItems(data));
+    data = removeDuplicates(data);
+    sendEmail(Users.daylan, await printItems(data));
 }
 
-export function printItems(items: ICoinGeckoMarkets[]): string
+export async function printItems(items: ICoinGeckoMarkets[]): Promise<string>
 {
-    let result: string = "";
-    const header_str:string =
-        `CoinGecko Price Query:
-        number of items returned: ${ items.length }
+    let tokenHash:TokenHash = await new QueryHelper().getTokenNameHash(5000,'volumeUSD');
+    timer.start();
+    let result = "";
+    const header_str =
+        `<h1>Hot Coins:</h1>
     `;
-    result.concat(header_str);
+    result = result + header_str;
     items.forEach((token, i)=> {
-            if( token.price_change_percentage_24h > 50) {
-                let fString = `
-                Item number: ${i}
-                    symbol: ${ token.symbol } ...warning, some tokens may have the same symbol as eachother.
-                    image: ${ token.image }
-                    id: ${ token.id }
-                    name: ${ token.name }
-                    price: ${token.current_price}
-                    updated: ${moment(token.last_updated).tz('America/New_York').format('MM/DD/YYYY hh:mma z')}
-                    time since last update: ${computeTimeElapsed(new Date(token.last_updated),
+            if( token.price_change_percentage_24h > 50
+                && tokenHash[token.symbol.toUpperCase()]) {
+                let fString = `  
+                    <h2>${ token.symbol.toUpperCase() }</h2>
+                    <img src = "${ token.image }" alt="" width = "50px">
+                    <p>name: <em>${ token.name}</em></p>               
+                    <p>price: <em>$${token.current_price}</em></p>
+                    <p>last updated: <em>${moment(token.last_updated).tz('America/New_York').format('MM/DD/YYYY hh:mma z')}</em></p>
+                    <p>time since last update: <em> ${computeTimeElapsed(new Date(token.last_updated),
                         new Date(),
-                        TimeUnits.minutes)?.toPrecision(2)} minutes.
-                    percent increase: ${token.price_change_percentage_24h}
+                        TimeUnits.minutes)?.toPrecision(2)} minutes.</em></p>
+                    <p>24 hour percent increase: <em> ${token.price_change_percentage_24h}%</em></p>
+                    <p><a href="https://info.uniswap.org/#/tokens/${tokenHash[token.symbol.toUpperCase()].id}">Uniswap V3 Info</a></p>
                 `
                 result = result + fString;
             }
     });
+    timer.stop("Make print out", TimeUnits.seconds);
     return result;
 }
 

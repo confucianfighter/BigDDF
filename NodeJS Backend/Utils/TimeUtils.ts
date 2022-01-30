@@ -1,12 +1,12 @@
 export enum TimeUnits
 {
-    months,
-    weeks,
-    days,
-    hours,
-    minutes,
-    seconds,
-    millis
+    months= "months",
+    weeks = "weeks",
+    days = "days",
+    hours = "hours",
+    minutes = "minutes",
+    seconds = "seconds",
+    millis = "milliseconds"
 }
 
 /* Returns time elapsed in units of choice. Returns undefined if this function is broken.
@@ -16,9 +16,10 @@ export enum TimeUnits
                         TimeUnits.minutes
                    );
  */
-export function computeTimeElapsed(start:Date, end:Date, units:TimeUnits): number | undefined
+export function computeTimeElapsed(start:Date, end:Date, units:TimeUnits): number
 {
     // undefined would indicate a problem:
+    // also this function needs to return negative time difference so we can compare and sort by time!
     let result:number | undefined = undefined;
     let diff_millis = end.getTime() - start.getTime();
     // look for a missing 'break' if there is a problem:

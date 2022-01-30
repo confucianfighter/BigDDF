@@ -1,6 +1,6 @@
 import {Token} from "./Token";
 
-export class TokenDayData {
+export interface TokenDayData {
     id: string // ID!
     date: string // Int!
     token: Token // Token!

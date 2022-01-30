@@ -6,7 +6,6 @@ function print_json_tree(obj, filler, prefix, filler_multiplier) {
     if (filler_multiplier === void 0) { filler_multiplier = 0; }
     for (var item in obj) {
         if (typeof obj[item] === "object") {
-            //console.log(item);
             print_json_tree(obj[item], filler, "".concat(prefix, "__").concat(item), filler_multiplier + 1);
         }
         else
