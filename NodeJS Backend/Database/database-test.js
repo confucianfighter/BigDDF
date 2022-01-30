@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var database_1 = require("./database");
 var QueryHelper_1 = require("../GraphQL/QueryHelper");
+var Pools_1 = require("../Exchanges/UniswapV3/Pools/Pools");
 function test() {
     return __awaiter(this, void 0, void 0, function () {
         var database, loaded_pools, qh, id_list, fetched_pools;
@@ -51,8 +52,8 @@ function test() {
                     loaded_pools = _a.sent();
                     console.log(loaded_pools);
                     qh = new QueryHelper_1.QueryHelper();
-                    id_list = qh.getIDsFromPoolList(loaded_pools);
-                    fetched_pools = qh.getPoolsByID(id_list);
+                    id_list = (0, Pools_1.getIDsFromPoolList)(loaded_pools);
+                    fetched_pools = (0, Pools_1.getPoolsByID)(id_list);
                     return [2 /*return*/];
             }
         });

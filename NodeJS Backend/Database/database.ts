@@ -2,6 +2,7 @@ import {OrderDirection, QueryHelper} from '../GraphQL/QueryHelper'
 import {readFile, readFileSync, writeFileSync} from 'fs';
 import * as path from "path";
 import {Pool} from "../Exchanges/UniswapV3/Pools/Pool";
+import {getPools} from "../Exchanges/UniswapV3/Pools/Pools";
 export class Database {
     private static Singleton: Database | null = null;
     public CurrentPrices: object[] | null = null;
@@ -26,7 +27,7 @@ export class Database {
     }
     private async makePriceList(first:number, orderBy:string):Promise<object[]>
     {
-        let q_result = await this.q.getPools(first, orderBy, OrderDirection.desc);
+        let q_result = await getPools(first, orderBy, OrderDirection.desc);
         let prices:object[] = [];
         for(let pool of q_result)
         {

@@ -6,7 +6,7 @@ import {TokenHourData} from "../Exchanges/UniswapV3/TokenHourDatas/TokenHourData
 import {TokenDayData} from "../Exchanges/UniswapV3/TokenDayDatas/TokenDayData";
 import {Block} from "./Blocks/Block";
 import {BlockHelper} from './Blocks/BlockHelper';
-import {getAllTokenPrices, ICoinGeckoMarkets, sortCoinGeckoBySymbol} from "../CoinGecko/CoinGecko";
+import {getAllTokenPrices, ICoinGeckoMarkets, sortCoinGeckoBySymbol} from "../PriceData/CoinGecko/CoinGecko";
 import {timer} from "../Utils/Timer";
 import {TimeUnits} from "../Utils/TimeUtils";
 import {TokenHash} from "../Exchanges/UniswapV3/Tokens/Tokens";

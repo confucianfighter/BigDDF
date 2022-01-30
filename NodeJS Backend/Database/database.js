@@ -79,6 +79,7 @@ exports.Database = void 0;
 var QueryHelper_1 = require("../GraphQL/QueryHelper");
 var fs_1 = require("fs");
 var path = __importStar(require("path"));
+var Pools_1 = require("../Exchanges/UniswapV3/Pools/Pools");
 var Database = /** @class */ (function () {
     function Database() {
         this.CurrentPrices = null;
@@ -124,7 +125,7 @@ var Database = /** @class */ (function () {
             var q_result, prices, _i, q_result_1, pool;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.q.getPools(first, orderBy, QueryHelper_1.OrderDirection.desc)];
+                    case 0: return [4 /*yield*/, (0, Pools_1.getPools)(first, orderBy, QueryHelper_1.OrderDirection.desc)];
                     case 1:
                         q_result = _a.sent();
                         prices = [];
