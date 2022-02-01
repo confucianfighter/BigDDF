@@ -9,11 +9,10 @@ export interface MailOptions {
 }
 
 export enum Users {
-    daylan = "daylannance@gmail.com",
-    clay = "cdiamond2002@gmail.com"
+    dj = "djdiamond2000@gmail.com",
+    clay = "cdiamond2002@gmail.com",
+    daylan = "daylannance@gmail.com"
 }
-
-
 
 export function sendEmail(to: Users, message:string)
 {
