@@ -21,13 +21,13 @@
 *
 *       Note: All data will be converted mostly into data keyed by coin symbol and since we are using the keys for that,
 *           sort order can be independent from lookups. If we have to we will make our own list class that keeps one
-*           sorted list and one keyed list under the hoods.
+*           sorted list and one keyed list under the hood.
 *
 *       Note: There is no timeout on coin history unless we get it from an external source, or database works
 *       asynchronously.
 *
 *       Note: all JSON is in strings. If data is corrupted there is a high probability the number contains a
-*       letter. We can take advantage of this make sure there are only number characters in the string
+*       letter. We can take advantage of this and make sure there are only number characters in the string
 *       representation.
 *
 *
@@ -41,10 +41,10 @@
 *
 *           reset timer.
 *
-*   Do everything we did with retrieving  tracked_coins with current_assets, mock_assets, and tracked history then:
+*   Do everything we did with retrieving  tracked_coins do with current_assets, mock_assets, and tracked history then:
 *
 *       add an entry to coin history of the old prices
-*       make a list for each set of data and key the lists by coin.
+*       make a list for each set of data and key the lists by coin symbol
 *
 *
 *
@@ -74,11 +74,8 @@
 *
 *       Clear trade recommends list. Request a new one. Reset timer.
 *
-*   Note:  Mock profits is to see how our experimental automated trader is doing compared to the trades we would approve.
-*   Calculate current profits (still paper trade) and current mock profits (from paper trade as well).
-*
 *       Note:  Mock profits is to see how our experimental automated trader is doing compared
-*       to the trades we would approve.
+*       to the trades we would approve. Both sets could be in paper trades however.
 *
 *       If there are gains or losses, check how long it's been since the last profit email update:
 *
