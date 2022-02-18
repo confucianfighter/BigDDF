@@ -1,0 +1,3 @@
+Kit Shortcuts:
+command+p: show function signature
+ctrl+space: show list of autocompletions after a '.' even if there is something already typed there like json.dumps

@@ -1,0 +1,18 @@
+Gas fee is the product of the following:
+
+Number of gas units required
+Price per gas unit, in GWEI
+Price of GWEI in ETH (always a billionth of an Ether = 10e-9 ETH)
+Price of ETH in, say, USD
+
+Let's take an example. We are moving ETH between two wallets in a standard way. As you point out,
+this is (always) 21,000 gas. Suppose the gas fee (number of GWEI to buy one unit of gas) is 100 and
+the price of ETH is 4000.
+
+USD price = 21,000 * 100 * 10e-9 * 4000 = $8.4
+
+Now let's look at a more realistic example. From DeFi Dashboard I see the average gas price for
+UniSwap v2 is 159,709. From Ethereum Gas Charts the average price at this time of day for this
+day of the week is 134 GWEI. The price of Ether is 4701.
+
+USD price = 159,709 * 134 * 10e-9 * 4701 = $100

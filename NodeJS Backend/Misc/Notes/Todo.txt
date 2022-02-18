@@ -1,0 +1,14 @@
+TODO: Change Pool class to a module for consistency.
+TODO: Move getCoinsThatMatchCoinGecko out of QueryHelper
+TODO: Move CoinGecko out of GraphQL
+TODO: Come up with a module that does things like finding matches between pools and prices
+TODO: Move Pool to own folder, same with IToken and the others.
+TODO: QueryBuilder might should just contain a query header string builder function
+    the rest of the builders can be moved to the query files in respective folders.
+TODO: Move Pool Queries to Pool Module or folder, same for other data structures
+TODO: Separate GraphQL interface from other pool data and use inheritance to combine them into Pool,
+    same for all uniswap V3 data structures.
+TODO: Move Pool sort functions to Pool module. Do the same for the other structures
+TODO: Create test harness.
+TODO: Be able to convert a date to UTC (time since 1/1/1970 for block retrieval
+TODO: Learn regular expressions.
