@@ -1,0 +1,13 @@
+version: '3' 
+
+services:
+  django_rest_server:
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    build: /Users/daylannance/Documents/DEV/DDF/django_rest_server/
+    volumes:
+      - /Users/daylannance/Documents/DEV/DDF/django_rest_server/:/DDF/django_rest_server
+    ports:
+      - 5001:80
+#   environment:
+#      - DEBUG=1
