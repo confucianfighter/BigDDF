@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  vscodetypescriptdebugging:
+    image: vscodetypescriptdebugging
+    build:
+      context: NodeJS Backend
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5000:5000
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "'/Users/daylannance/Documents/DEV/DDF/NodeJS Backend/compiled/PriceData/CoinGecko/coin-gecko-service.js'"]

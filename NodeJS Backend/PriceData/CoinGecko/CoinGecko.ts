@@ -1,52 +1,70 @@
 // had to downgrade to earlier version of fetch:
-// npm i node-fetch@2.6.1
-//@ts-ignore
-import fetch from "node-fetch"
+// f*** node-fetch. Axios actually works!
+import axios, {AxiosResponse} from 'axios';
 import {computeTimeElapsed, TimeUnits} from "../../Utils/TimeUtils";
-import moment from "moment-timezone";
-import {timer} from "../../Utils/Timer";
+import {Timer, timer} from "../../Utils/Timer";
+import {delay} from "../../Utils/delay";
+import { Base } from '../../Utils/Base';
+import { basename } from 'path';
+
 // Gets data on as many tokens from CoinGecko as specified:
-export async function getAllTokenPrices(how_many:number):Promise<ICoinGeckoMarkets[]>
-{
-    timer.start();
-    //base url, going to add parameters in the loop:
-    let url = `https://api.coingecko.com/api/v3/coins/markets?`
-    // return list:
-    let price_list:ICoinGeckoMarkets[] = [];
-    // async functions returns promises, going to not 'await' and instead send out all queries at once and
-    // collect the 'promises' in order to dramatically improve speed:
-    let promises:Promise<any>[] = [];
-    // Can only get 250 coins at a time:
-    for(let i:number = 0; i < how_many/250; i++) {
-        // params to add to end of url:
-        let params: string[] =
+export class CoinGecko extends Base{
+    success_count:number
+    constructor(){
+        super("./Logs/CoinGecko.log",100);
+        this.success_count = 0;
+    }
+    async getAllTokenPrices(how_many:number):Promise<ICoinGeckoMarkets[]>
+    {
+        let error_count = 0; 
+        let price_list: ICoinGeckoMarkets[] = [];
+        let url = `https://api.coingecko.com/api/v3/coins/markets?`
+        // Can only get 250 coins at a time:
+        for (let i: number = 0; i < how_many / 250; i++) {
+            // params to add to end of url:
+            let per_page = how_many < 250? how_many:250;
+            let params: string[] =
             [
                 `vs_currency=usd`,
                 `order=market_cap_desc`,
-                `per_page=250`,
+                `per_page=${per_page}`,
                 `page=${i}`,
                 `sparkline=false`
-            ]
-        // https parameters are separated by the ampersand: '&'
-        const joined_params = params.join('&');
-        const url_params = url + joined_params;
-        // gather the promises, do not 'await':
-        try {
-            promises.push(fetch(url_params));
-        } catch { throw new Error( "Fetch request either timed out or network is down." )}
+            ];
+            // https parameters are separated by the ampersand: '&'
+            const joined_params = params.join('&');
+            const url_params = url + joined_params;
+            // gather the promises, do not 'await':
+            this.logger.log(`Getting next 250 coins on page ${i} of ${how_many/250}.`)
+            let result:ICoinGeckoMarkets[] = [];
+            let axios_result = <AxiosResponse>{};
+            let retry = true;
+            while(retry) {
+                let delay_millis = 60000/50;
+                await delay(delay_millis);
+                try {
+                    axios_result = await axios.get(url_params);
+                } catch (err: any) {
+                    retry = true;
+                    error_count++;
+                    this.log(`Fetch request either timed out or network is down. Error name was ${err.name}`)
+                    this.log("Error count: " + error_count);
+                }
+                this.log("Error count: " + error_count);
+                retry  = false;
+            }
+            result = <ICoinGeckoMarkets[]>axios_result.data;
+            if(result !== null && result !== undefined) {
+                price_list = [...price_list, ...result]
+                this.success_count++;
+            }
+            else { retry = true;}
+        }
+        //drum roll...
+        this.log("success count: " + this.success_count)
+        this.log("error count: " + error_count)
+        return price_list;
     }
-    // finally, wait for all CoinGecko queries to come back:
-    let results = await Promise.all(promises);
-    // build one object list from the results:
-    for(let result of results) {
-        // result is 'any' type. 'object' type didn't seem to work:
-        result = await result.json();
-        // '...' is the spreader operator, drops the '[' and ']' off the list:
-        price_list = [...price_list, ...result]
-    }
-    timer.stop("getAllTokenPrices");
-    // drum roll...
-    return price_list;
 }
 
 export interface ICoinGeckoMarkets {
@@ -79,8 +97,7 @@ export interface ICoinGeckoMarkets {
     PRICE_PERCENT_DIFFERENCE_AMONG_DUPLICATES: number;
 }
 
-export function sortByID(a:ICoinGeckoMarkets, b:ICoinGeckoMarkets): number
-{
+export function sortByID(a:ICoinGeckoMarkets, b:ICoinGeckoMarkets): number {
     // In Coin Gecko, they are giving names as the id. Maybe it is more unique than the actual 'name' property?
     if(a.id > b.id) return 1;
     else if(a.id < b.id) return -1;
@@ -106,30 +123,28 @@ throw_error_if_price_varies: boolean = false)
     //length must be at least two because we are popping then comparing:
     while(list_copy.length > 1) {
         // pop last item off the list:
-        let a:ICoinGeckoMarkets | undefined = list_copy.pop();
+        let a:ICoinGeckoMarkets = <ICoinGeckoMarkets>list_copy.pop();
         // peek at the next item:
-        let b:ICoinGeckoMarkets | undefined = list_copy[list_copy.length - 1];
+        let b:ICoinGeckoMarkets = <ICoinGeckoMarkets>list_copy[list_copy.length - 1];
         let price_percent_difference = 0;
         // compare id and % price difference
-        if( a?.id === b?.id){
+        if( a.id === b.id){
             thereWereDuplicates = true;
-            price_percent_difference= (Math.abs(a?.current_price - b?.current_price) / a?.current_price) * 100;
+            price_percent_difference= (Math.abs(a.current_price - b.current_price) / a.current_price) * 100;
             if(price_percent_difference > 1) {
                 error_count += 1;
                 thePricesVaried = true;
                 error_str = error_str + `
-                    Coin with id ${a?.id} has a duplicate with mismatched prices.
-                    Price of first one is: ${a?.current_price}
-                    Price of second one is: ${b?.current_price}
+                    Coin with id ${a.id} has a duplicate with mismatched prices.
+                    Price of first one is: ${a.current_price}
+                    Price of second one is: ${b.current_price}
                     Price percent difference is: %${price_percent_difference}
                     Last coin A update: ${a.last_updated}
                     Last coin B update: ${b.last_updated}
                 `;
             }
         }
-        //@ts-ignore
         a.PRICE_PERCENT_DIFFERENCE_AMONG_DUPLICATES = price_percent_difference;
-        //@ts-ignore
         b.PRICE_PERCENT_DIFFERENCE_AMONG_DUPLICATES = price_percent_difference;
     }
     if(thePricesVaried && throw_error_if_price_varies) {
@@ -155,16 +170,14 @@ export function removeDuplicates(coins:ICoinGeckoMarkets[]):ICoinGeckoMarkets[]{
     // needs to be at least two coins so we can compare:
     while(coins_copy.length > 1)
     {
-        // @ts-ignore
-        let a:ICoinGeckoMarkets = coins_copy.shift();
-        // @ts-ignore
+        let a = <ICoinGeckoMarkets>coins_copy.shift();
         while (true) {
             if(a.symbol === coins_copy[0].symbol)
             {
-                let b:ICoinGeckoMarkets = <ICoinGeckoMarkets>coins_copy.shift();
-                let time_a:Date = new Date(a.last_updated);
-                let time_b:Date = new Date(b.last_updated);
-                let time_difference:number = computeTimeElapsed(time_a,time_b,TimeUnits.millis);
+                let b = <ICoinGeckoMarkets>coins_copy.shift();
+                let time_a = a.last_updated;
+                let time_b = b.last_updated;
+                let time_difference = computeTimeElapsed(time_a,time_b,TimeUnits.millis);
                 if(time_difference > 0) {
                     a = b;
                     continue;
@@ -178,7 +191,7 @@ export function removeDuplicates(coins:ICoinGeckoMarkets[]):ICoinGeckoMarkets[]{
         if(a.symbol === b.symbol) coins_copy.shift();
     }
     let [thereWereDuplicates, thePricesVaried] = checkForDuplicatesAndPriceVariation(return_coins);
-    if(thereWereDuplicates) throw new Error("My God man! Remove Coin Gecko duplicate logic not working!");
+    if(thereWereDuplicates) throw new Error("My God man! Remove Coin Gecko duplicate logic is not working!");
     else console.log("CoinGecko duplicates removed successfully.");
     return return_coins;
 }

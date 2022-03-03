@@ -1,4 +1,5 @@
 import {gql} from "graphql-request";
+import {buildIDString} from "../../../GraphQL/QueryBuilder";
 
 export function BuildTokensQuery(
     first?: number,
@@ -7,9 +8,7 @@ export function BuildTokensQuery(
     orderDirection?:string,
     ids?:string[],
     block?:number|undefined): string {
-
     let idString:string | undefined = undefined
-    // @ts-ignore
     if( ids !== undefined) idString = buildIDString(ids);
     const query_str:string = gql `{
     tokens(` +

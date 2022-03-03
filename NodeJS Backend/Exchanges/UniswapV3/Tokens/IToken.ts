@@ -1,4 +1,4 @@
-import {TokenDayData} from "../TokenDayDatas/TokenDayData";
+import {TokenDayData} from "../TokenDayDatas/TokenDayDatas/TokenDayData";
 import {Pool} from "../Pools/Pool";
 
 export interface IToken {

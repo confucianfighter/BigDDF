@@ -7,6 +7,9 @@ export class Timer {
     private units = TimeUnits.seconds;
     private time_elapsed: number | null = null;
 
+    constructor(){
+        this.running = false;
+    }
     public start(task_name?:string, units?:TimeUnits) {
         if (this.running) {
             throw new Error("Start was called on a timer that is already running!")
@@ -26,7 +29,8 @@ export class Timer {
         this.running = false;
         let now = new Date();
         this.time_elapsed = computeTimeElapsed(this.startTime, now, this.units);
-        if(this.taskName != "") console.log(`${this.taskName} took ${this.time_elapsed} ${this.units}`);
+        //leave the tab there                vv
+        if(this.taskName != "") console.log(`   ${this.taskName} took ${this.time_elapsed} ${this.units}`);
         return this.time_elapsed;
     }
 }

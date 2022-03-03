@@ -1,0 +1,11 @@
+import { Pool } from "./Pool";
+import { OrderDirection } from "../../../GraphQL/QueryHelper";
+export declare function getPools(first: number, orderBy: string, orderDirection: OrderDirection): Promise<Pool[]>;
+export declare function getPoolByTokenMatch(symbol_list: string[], first: number): Promise<Pool[]>;
+export declare function getPoolsByID(ids_list: string[]): Promise<Pool[]>;
+export declare function getIDsFromPoolList(pools: Pool[]): string[];
+export declare function verifyAllIDsPresent(ids: string[], pools: Pool[]): Promise<void>;
+export declare function sort_pools_by_id_func(a: Pool, b: Pool): 1 | -1 | 0;
+export declare function sort_ids_func(aID: string, bID: string): 1 | -1 | 0;
+export declare function sort_pools_by_token0_symbol(a: Pool, b: Pool): 1 | -1 | 0;
+export declare function sort_pools_by_token1_symbol(a: Pool, b: Pool): 1 | -1 | 0;

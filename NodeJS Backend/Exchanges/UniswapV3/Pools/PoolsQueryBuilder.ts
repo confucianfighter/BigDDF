@@ -11,7 +11,6 @@ export function buildPoolsQuery(
     block?:number|undefined): string {
 
     let idString:string | undefined = undefined
-    // @ts-ignore
     if( ids !== undefined )
     {
         idString = buildIDString(ids);

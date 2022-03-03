@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 const EthDater = require('ethereum-block-by-date');
-//import * as EthDater from "ethereum-block-by-date"
+
 import * as ethers from 'ethers'
 import { computeTimeElapsed, TimeUnits} from "../../Utils/TimeUtils";
 import {getBlocksQuery} from "../QueryBuilder";
@@ -47,11 +47,9 @@ export class BlockHelper {
             && this.currentBlock !== null
             && this.lastBlock?.number !== this.currentBlock?.number) {
             // it's unix epoch time * 1000
-            // @ts-ignore
-            let last_block_time = new Date(this.lastBlock.timestamp * 1000);
+            let last_block_time = new Date(<number>this.lastBlock.timestamp * 1000);
             // it's unix epoch time * 1000
-            // @ts-ignore
-            let current_block_time = new Date(this.currentBlock.timestamp * 1000);
+            let current_block_time = new Date(<number>this.currentBlock.timestamp * 1000);
             this.minutes_between_blocks =
                 computeTimeElapsed(last_block_time, current_block_time, TimeUnits.seconds);
         }
@@ -75,10 +73,9 @@ export class BlockHelper {
         return [t1, t2, tWeek]
     }
 
-    public getReadableBlockTimestamp(block:Block | undefined):string
+    public getReadableBlockTimestamp(block:Block):string
     {
-        // @ts-ignore
-        let timestamp = moment(new Date(block.timestamp * 1000));
+        let timestamp = moment(new Date(<number>block.timestamp * 1000));
         let out_str = timestamp.tz('America/New_York').format('MM/DD/YYYY hh:mm:ssa z');
         return out_str;
     }

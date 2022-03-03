@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "SERVER"
+		}
+	],
+	"settings": {
+		"editor.tabCompletion": "on"
+	}
+}

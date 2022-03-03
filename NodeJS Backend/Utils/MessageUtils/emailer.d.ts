@@ -4,8 +4,9 @@ export interface MailOptions {
     subject: string;
     html: string;
 }
-export declare enum Users {
-    daylan = "daylannance@gmail.com",
-    clay = "cdiamond2002@gmail.com"
-}
-export declare function sendEmail(to: Users, message: string): void;
+export declare type Users = {
+    [key: string]: string;
+};
+export declare let ADMIN_LIST: string[];
+export declare let USER_HASH: Users;
+export declare function sendEmail(users: string[], message: string): void;

@@ -1,4 +1,4 @@
-import {IToken} from "../Tokens/IToken";
+import {IToken} from "../../Tokens/IToken";
 
 export interface TokenDayData {
     id: string // ID!

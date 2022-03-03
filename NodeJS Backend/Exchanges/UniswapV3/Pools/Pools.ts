@@ -73,9 +73,8 @@ export async function getPoolsByID(ids_list:string[]): Promise<Pool[]> {
         let splice_amount = ids.length >= 20? 20:ids.length;
         let ids_fragment :string[] = []
         for(let i = 0; i < splice_amount; i++) {
-            // @ts-ignore // ts complains pop could return undefined
-            let id: string = ids.pop();
-            ids_fragment.push(id);
+            let id = ids.pop();
+            ids_fragment.push(<string>id);
         }
         let query_str: string = buildPoolsQuery(undefined, undefined,undefined, undefined, ids_fragment, blocks[0].number);
         // take the promise, don't wait

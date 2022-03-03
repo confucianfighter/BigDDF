@@ -23,8 +23,7 @@ export async function getTokenHourData(
         // going a thousand at a time, skip is another GraphQL query parameter:
         const skip_amount = 1000 * i;
         // generate a graphql query string:
-        // @ts-ignore
-        let block = blocks[0].number -1;
+        let block = <number>blocks[0].number -1;
         const query_str:string =
             buildTokenHourDatas(adjusted_first, skip_amount,orderBy,orderDirection, undefined, block)
         // send the query, store the promise, don't wait, move on

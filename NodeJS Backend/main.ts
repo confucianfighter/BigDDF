@@ -4,7 +4,7 @@
 *  Note, main loop does not wait for any promises to be fulfilled. Instead it checks all async
 *   promise statuses each time around. This way it can check timeouts and errors without crashing.
 *
-* while(not error && not user_wants_exit)
+* while(not_error && not user_wants_exit)
 *
 *   If data_migration_check_timer.time_to_update is set to true, Check const version_number against stored
 *   version number. If they are different, check the migration required flag is set in the version file. We
@@ -12,7 +12,7 @@
 *   own data migration code that translates the old data into the new format.
 *
 *   If coin_history_data is null
-*       check if there's a pending promise
+*       check if there's a pending promise:
 *
 *       otherwise check if there's a file or database entries
 *           When reading file and database entries, read files or data twice, compare results.

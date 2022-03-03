@@ -1,8 +1,9 @@
-import {TokenDayData} from "../TokenDayData";
+import {TokenDayData} from "./TokenDayData";
 import {Block} from "../../../../GraphQL/Blocks/Block";
 import {BlockHelper} from "../../../../GraphQL/Blocks/BlockHelper";
 import * as QueryBuilder from "../../../../GraphQL/QueryBuilder";
 import {OrderDirection, queryHelper} from "../../../../GraphQL/QueryHelper";
+import {TokenDayDatas} from "./TokenDayDatasQueryBuilder";
 
 export async function getTokenDayData(
     first: number,
@@ -24,7 +25,7 @@ export async function getTokenDayData(
         const skip_amount = 1000 * i;
         // generate a graphql query string:
         const query_str:string =
-            QueryBuilder.TokenDayDatas(adjusted_first, skip_amount,orderBy,orderDirection, undefined, blocks[0].number)
+            TokenDayDatas(adjusted_first, skip_amount,orderBy,orderDirection, undefined, blocks[0].number)
         // send the query, store the promise, don't wait, move on
         promises.push(queryHelper.sendQuery<TokenDay>(query_str));
         // if this results in a negative number, we are done:

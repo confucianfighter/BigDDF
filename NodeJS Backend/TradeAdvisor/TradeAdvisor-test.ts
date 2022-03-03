@@ -1,5 +1,5 @@
-import {getAllTokenPrices, ICoinGeckoMarkets, removeDuplicates} from "../PriceData/CoinGecko/CoinGecko";
-import {sendEmail, Users} from "../Utils/MessageUtils/emailer";
+import {CoinGecko, ICoinGeckoMarkets, removeDuplicates} from "../PriceData/CoinGecko/CoinGecko";
+import {ADMIN_LIST, sendEmail, Users} from "../Utils/MessageUtils/emailer";
 import {getTokenNameHash} from "../Exchanges/UniswapV3/Tokens/Tokens";
 import {timer} from "../Utils/Timer";
 import moment from "moment-timezone";
@@ -7,9 +7,16 @@ import {computeTimeElapsed, TimeUnits} from "../Utils/TimeUtils";
 
 export async function test()
 {
-    let data:ICoinGeckoMarkets[] = await getAllTokenPrices(5000);
+    let coinGecko = new CoinGecko();
+    let data:ICoinGeckoMarkets[] = await coinGecko.getAllTokenPrices(5000);
     data = removeDuplicates(data);
-    sendEmail(Users.daylan, await printItems(data));
+    let x = 2;
+    let y = 3;
+    let z = x+y;
+    let w = z + y;
+
+    console.log(w);
+    sendEmail(["ddfalerts@gmail.com"], await printItems(data));
 }
 
 export async function printItems(items: ICoinGeckoMarkets[]): Promise<string>

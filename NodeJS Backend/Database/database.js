@@ -159,7 +159,6 @@ var Database = /** @class */ (function () {
                         return [4 /*yield*/, JSON.parse(data)];
                     case 1:
                         _a.MarkedPrices = _b.apply(void 0, [_c.sent()]);
-                        // @ts-ignore
                         return [2 /*return*/, this.MarkedPrices];
                 }
             });

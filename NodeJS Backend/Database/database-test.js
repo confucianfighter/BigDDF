@@ -37,25 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var database_1 = require("./database");
-var QueryHelper_1 = require("../GraphQL/QueryHelper");
-var Pools_1 = require("../Exchanges/UniswapV3/Pools/Pools");
 function test() {
     return __awaiter(this, void 0, void 0, function () {
-        var database, loaded_pools, qh, id_list, fetched_pools;
+        var database;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    database = new database_1.Database();
-                    console.log(database.MarkedPrices);
-                    return [4 /*yield*/, database.loadMarkedPrices()];
-                case 1:
-                    loaded_pools = _a.sent();
-                    console.log(loaded_pools);
-                    qh = new QueryHelper_1.QueryHelper();
-                    id_list = (0, Pools_1.getIDsFromPoolList)(loaded_pools);
-                    fetched_pools = (0, Pools_1.getPoolsByID)(id_list);
-                    return [2 /*return*/];
-            }
+            database = new database_1.Database();
+            return [2 /*return*/];
         });
     });
 }

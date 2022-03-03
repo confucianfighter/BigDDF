@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Music Controller</title>
+    <!--Loadstatic is where we are going to insert react stuff when this template is
+        Served to the browser:-->
+    {% load static %}
+    <!--Not sure why we can't just have jquery in our package.json
+        Maybe it's running from a server within some other context?-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Font for material.ui, which is kind of like bootstrap:-->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <!--Our own stylesheet:-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}"
+    />
+  </head>
+  <body>
+    <div id="main">
+    <!--🔥🔥🔥 "app" is our React Entry Point 🔥🔥🔥-->
+      <div id="app"></div>
+    </div>
+    <!--Loads from our static folder:-->
+    <script src="{% static "frontend/main.js" %}"></script>
+  </body>
+</html>

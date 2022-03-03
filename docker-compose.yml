@@ -1,13 +1,12 @@
-version: '3' 
+version: '3.4'
 
 services:
-  django_rest_server:
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    build: /Users/daylannance/Documents/DEV/DDF/django_rest_server/
-    volumes:
-      - /Users/daylannance/Documents/DEV/DDF/django_rest_server/:/DDF/django_rest_server
+  vscodetypescriptdebugging:
+    image: vscodetypescriptdebugging
+    build:
+      context: NodeJS Backend
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
     ports:
-      - 5001:80
-#   environment:
-#      - DEBUG=1
+      - 5000:5000

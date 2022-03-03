@@ -27,7 +27,7 @@ export class Database {
     }
     private async makePriceList(first:number, orderBy:string):Promise<object[]>
     {
-        let q_result = await getPools(first, orderBy, OrderDirection.desc);
+        let q_result:Pool[] = await getPools(first, orderBy, OrderDirection.desc);
         let prices:object[] = [];
         for(let pool of q_result)
         {
@@ -45,7 +45,6 @@ export class Database {
         let data = readFileSync('/Users/daylannance/Documents/uniswap-getting-started/Database/MarkedPrices.json',
             'utf8');
         this.MarkedPrices = Object(await JSON.parse(data));
-        // @ts-ignore
-        return this.MarkedPrices;
+        return <Pool[]>this.MarkedPrices;
     }
 }

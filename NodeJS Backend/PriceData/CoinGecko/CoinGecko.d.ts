@@ -1,0 +1,34 @@
+export declare function getAllTokenPrices(how_many: number): Promise<ICoinGeckoMarkets[]>;
+export interface ICoinGeckoMarkets {
+    id: string;
+    symbol: string;
+    name: string;
+    image: string;
+    current_price: number;
+    market_cap: number;
+    market_cap_rank: null;
+    fully_diluted_valuation: null;
+    total_volume: number;
+    high_24h: number;
+    low_24h: number;
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+    market_cap_change_24h: number;
+    market_cap_change_percentage_24h: number;
+    circulating_supply: number;
+    total_supply: number;
+    max_supply: null;
+    ath: number;
+    ath_change_percentage: number;
+    ath_date: Date;
+    atl: number;
+    atl_change_percentage: number;
+    atl_date: Date;
+    roi: null;
+    last_updated: Date;
+    PRICE_PERCENT_DIFFERENCE_AMONG_DUPLICATES: number;
+}
+export declare function sortByID(a: ICoinGeckoMarkets, b: ICoinGeckoMarkets): number;
+export declare function checkForDuplicatesAndPriceVariation(list: ICoinGeckoMarkets[], throw_error_if_price_varies?: boolean): [thereWereDuplicates: boolean, thePricesVaried: boolean];
+export declare function sortCoinGeckoBySymbol(a: ICoinGeckoMarkets, b: ICoinGeckoMarkets): number;
+export declare function removeDuplicates(coins: ICoinGeckoMarkets[]): ICoinGeckoMarkets[];

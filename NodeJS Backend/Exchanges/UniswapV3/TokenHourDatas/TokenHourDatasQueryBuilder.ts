@@ -9,7 +9,6 @@ export function buildTokenHourDatas(
     ids?:string[],
     block?:number|undefined): string {
     let idString:string | undefined
-    // @ts-ignore
     if( ids !== undefined ) idString = buildIDString(ids);
     return gql `{
     tokenHourDatas(` +
